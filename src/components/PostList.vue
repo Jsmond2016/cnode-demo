@@ -34,7 +34,7 @@ import { default } from './Header.vue';
           </span>
           <!-- 标题 -->
           <router-link :to="{
-            name:'post_content',
+            name:'article',
             params:{
               id:post.id,
               name:post.author.loginname
@@ -67,7 +67,9 @@ export default {
         page: 1,
         size: 20
       }).then(res => {
-        this.posts = res.data.data || []
+        if (res) {
+          this.posts = res.data.data
+        }
       }).catch((err) => {
         console.log(err)
       }).finally(() => {
