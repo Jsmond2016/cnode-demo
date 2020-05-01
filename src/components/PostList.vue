@@ -58,14 +58,14 @@ export default {
   data () {
     return {
       isLoading: false,
-      posts: []
+      posts: {}
     }
   },
   methods: {
     getData () {
       this.$http.get('https://cnodejs.org/api/v1/topics', {
         page: 1,
-        size: 20
+        limit: 20
       }).then(res => {
         if (res) {
           this.posts = res.data.data

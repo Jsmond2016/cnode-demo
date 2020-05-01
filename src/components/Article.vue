@@ -62,7 +62,7 @@ export default {
   data () {
     return {
       isLoading: false,
-      post: []
+      post: {}
     }
   },
   methods: {
@@ -180,5 +180,10 @@ export default {
 
   .markdown-text img {
     width: 92% !important;
+  }
+
+  .loading {
+    text-align: center;
+    padding-top: 300px;
   }
 </style>
