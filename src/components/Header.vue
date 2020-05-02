@@ -12,7 +12,7 @@
     </router-link>
     <ul>
       <li>
-        <a href="/">首页</a>
+        <a href="">首页</a>
       </li>
       <li>
         <a href="">新手</a>
