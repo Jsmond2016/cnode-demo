@@ -10,14 +10,15 @@
     <div class="loading" v-if="isLoading">
       <img src="../assets/loading.gif">
     </div>
-    <div class="authorsummary" v-else>
+    <div class="authorsummary">
       <div class="topbar">作者</div>
-      <router-link :to="{
+      <router-link class="message" :to="{
         name: 'userinfo',
         params: {
           name: userinfo.loginname
-        }
-        }">
+          }
+        }"
+      >
         <img :src="userinfo.avatar_url" >
         <span class="loginname">{{userinfo.loginname}}</span>
       </router-link>
@@ -25,12 +26,12 @@
     <div class="recent_topics">
       <div class="topbar">作者最近主题</div>
       <ul>
-        <li v-for="(list, index) in topicLimitBy5" :key="index">
+        <li v-for="(list, index) in (userinfo.recent_topics || []).slice(0, 5)" :key="index">
           <router-link :to="{
             name: 'article',
             params: {
-              id: list.id,
-              name: list.loginname
+              id: list.id || '',
+              name: list.author && list.author.loginname
             }
           }">
           {{list.title}}
@@ -41,12 +42,12 @@
     <div class="recent_replies">
       <div class="topbar">作者最近回复</div>
       <ul>
-        <li v-for="(list, index) in replyLimitby5" :key="index">
+        <li v-for="(list, index) in (userinfo.recent_replies || []).slice(0, 5)" :key="index">
           <router-link :to="{
             name: 'article',
             params: {
               id: list.id,
-              name: list.loginname
+              name: list.author ? list.author.loginname : ''
             }
           }">
           {{list.title}}
@@ -60,51 +61,22 @@
 <script>
 export default {
   name: 'SlideBar',
-  data () {
-    return {
-      userinfo: {},
-      isLoading: false
-    }
-  },
-  methods: {
-    getUserInfo () {
-      const { name } = this.$route.params
-      this.$http.get(`https://cnodejs.org/api/v1/user/${name}`).then(res => {
-        if (res.data.success) {
-          this.userinfo = res.data.data
-        }
-      }).catch(err => {
-        console.log(err)
-      }).finally(() => {
-        this.isLoading = false
-      })
-    }
-  },
-  computed: {
-    topicLimitBy5 () {
-      if (this.userinfo.recent_topics) {
-        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-        return this.userinfo.recent_topics.splice(0, 5)
+  props: {
+    userinfo: {
+      type: Object,
+      default () {
+        return {}
       }
-      return this.userinfo.recent_topics
     },
-    replyLimitby5 () {
-      if (this.userinfo.recent_replies) {
-        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-        return this.userinfo.recent_replies.splice(0, 5)
+    isLoading: {
+      type: Boolean,
+      default () {
+        return false
       }
-      return this.userinfo.recent_replies
-    }
-  },
-  watch: {
-    // 同路由跳转，检测路由参数的变化，更新页面数据
-    '$route' () {
-      this.getUserInfo()
     }
   },
   beforeMount () {
-    this.isLoading = true
-    this.getUserInfo()
+    console.log(this.userinfo)
   }
 }
 </script>
@@ -116,13 +88,18 @@ export default {
   }
   .authorinfo {
     width: 328px;
-    float: right;
-    margin-top: -10px;
-    margin-right: 65px;
+    display: flex;
+    flex-flow: column;
   }
   li{
     padding: 3px 0 ;
   }
+  .message {
+    display: flex;
+    justify-content: row;
+    text-decoration: none;
+  }
+
   .recent_replies ul, .recent_topics ul {
     margin-top: 0px;
     margin-bottom: 0px;

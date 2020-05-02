@@ -12,7 +12,7 @@
  * @param {*} str
  * @returns
  */
-export function formatDate (str) {
+export function formatDate (str = '') {
   if (!str) return ''
   const date = new Date(str)
   const time = new Date().getTime() - date.getTime() // 现在的时间-传入的时间 = 相差的时间（单位 = 毫秒）
@@ -42,7 +42,7 @@ export function formatDate (str) {
  * @param {*} post
  * @returns
  */
-export function tabFormatter (post) {
+export function tabFormatter (post = {}) {
   if (post.good === true) {
     return '精华'
   } else if (post.top === true) {

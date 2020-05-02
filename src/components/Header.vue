@@ -12,7 +12,7 @@
     </router-link>
     <ul>
       <li>
-        <a href="">首页</a>
+        <router-link :to="{name: 'root'}">首页</router-link>
       </li>
       <li>
         <a href="">新手</a>
