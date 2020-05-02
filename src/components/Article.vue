@@ -91,9 +91,9 @@ export default {
 /* 关于原因，参考这里 【vue中style下scope的使用和坑】 https://blog.csdn.net/margin_0px/article/details/83014024 */
 /* 关于原因，参考这里 【element-ui的样式改变不了】https://www.cnblogs.com/asusdell/p/12461948.html */
  /*关于原因，参考这里 【Vue style 深度作用选择器 >>> 与 /deep/（sass/less）】 https://www.cnblogs.com/CyLee/p/10006065.html  */
- .article {
-    margin: 20px 68px;
-  }
+  .article {
+      margin: 20px 418px 20px  65px;
+    }
   .topbar {
     padding: 10px;
     background-color: #f6f6f6;
@@ -103,7 +103,7 @@ export default {
   }
 
   .article:not(:first-child) {
-    margin-right: 340px;
+    margin-right: 418px;
     margin-top: 15px;
   }
 

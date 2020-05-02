@@ -7,10 +7,12 @@
 
 <template>
   <div class="header">
-    <img src="../assets/cnodejs_light.svg" alt="">
+    <router-link :to="{name: 'root'}">
+      <img src="../assets/cnodejs_light.svg">
+    </router-link>
     <ul>
       <li>
-        <a href="">首页</a>
+        <a href="/">首页</a>
       </li>
       <li>
         <a href="">新手</a>

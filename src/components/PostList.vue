@@ -14,12 +14,15 @@ import { default } from './Header.vue';
     <div class="posts" v-else>
       <ul>
         <li>
-          <div class="toobar">
-            <span>全部</span>
-            <span>精华</span>
-            <span>分享</span>
-            <span>问答</span>
-            <span>招聘</span>
+          <div class="toobar" @click="changeTab">
+            <span
+              v-for="(tab, index) in tabs"
+              :key="index"
+              :name="tab.name"
+              :class="tab.name === tabName ? 'tab' : ''"
+            >
+              {{tab.desc}}
+            </span>
           </div>
         </li>
         <li v-for="(post, index) in posts" :key="index">
@@ -48,24 +51,56 @@ import { default } from './Header.vue';
           </span>
         </li>
       </ul>
+      <pagination @onSearch="getData"></pagination>
     </div>
   </div>
 </template>
 
 <script>
+import Pagination from './Pagination'
 export default {
   name: 'PostList',
   data () {
     return {
+      tabs: [
+        {
+          name: 'all',
+          desc: '全部'
+        },
+        {
+          name: 'good',
+          desc: '精华'
+        },
+        {
+          name: 'share',
+          desc: '分享'
+        },
+        {
+          name: 'ask',
+          desc: '问答'
+        },
+        {
+          name: 'job',
+          desc: '招聘'
+        },
+        {
+          name: 'dev',
+          desc: '客户端测试'
+        }
+      ],
       isLoading: false,
-      posts: {}
+      posts: {},
+      tabName: 'all'
     }
   },
   methods: {
-    getData () {
+    getData (page = 1, tab) {
       this.$http.get('https://cnodejs.org/api/v1/topics', {
-        page: 1,
-        limit: 20
+        params: {
+          page,
+          limit: 20,
+          tab
+        }
       }).then(res => {
         if (res) {
           this.posts = res.data.data
@@ -83,11 +118,19 @@ export default {
       if (post.top) styles.push('put_top')
       if (!post.good && !post.top) styles.push('topiclist-tab')
       return styles
+    },
+    changeTab (e) {
+      const typeName = e.target.getAttribute('name') || 'all'
+      this.tabName = typeName
+      this.getData(1, typeName)
     }
   },
   beforeMount () {
     this.isLoading = true
-    this.getData()
+    this.getData(1, 'all')
+  },
+  components: {
+    Pagination
   }
 }
 </script>
@@ -99,6 +142,13 @@ export default {
   }
   .posts {
     margin-top: 10px;
+  }
+
+  .PostList .posts span.tab {
+    background: #80bd01;
+    color: white;
+    padding: 2px 6px;
+    border-radius: 4px;
   }
 
   .PostList img {

@@ -14,7 +14,7 @@
         <img :src="userinfo.avatar_url">
         <span> {{userinfo.loginname}}</span>
         <p>{{userinfo.score}} 积分</p>
-        <p v-if="userinfo.githubUsername">{{userinfo.githubUsername}}</p>
+        <p v-if="userinfo.githubUsername">github: {{userinfo.githubUsername}}</p>
         <p>注册时间 {{userinfo.create_at | formatDate }}</p>
       </section>
       <div class="replies">
@@ -81,6 +81,11 @@ export default {
 }
 </script>
 <style scoped>
+
+  .userinfo {
+    margin-right: 282px;
+  }
+
   .userInfomation {
     background: white;
     width: 75%;
@@ -88,9 +93,23 @@ export default {
   }
   .userInfomation section {
     padding: 12px;
+    font-size: 14px;
+    color: #778087;
+  }
+
+  .userInfomation section span{
+    font-size: 14px;
+    line-height: 30px;
+    height: 30px;
+    vertical-align: top;
+  }
+
+  .userInfomation section p {
+    padding: 4px 0;
   }
   .userInfomation img {
     width: 30px;
+    border-radius: 10%;
   }
   .userInfomation li {
     list-style:none;
