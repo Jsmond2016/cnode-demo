@@ -122,6 +122,7 @@ export default {
     changeTab (e) {
       const typeName = e.target.getAttribute('name') || 'all'
       this.tabName = typeName
+      this.isLoading = true
       this.getData(1, typeName)
     }
   },
