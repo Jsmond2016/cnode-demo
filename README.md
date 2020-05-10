@@ -1,21 +1,54 @@
 # cnode-demo
 
-> A Vue.js project
+本项目为一个 Vuejs 学习练手项目，包含以下 3 个版本：
 
-## Build Setup
+- [√] Vuejs + Vue-Router + Axios 基础版本
+- [√] Vuejs + Vue-Router + Vuex + Element 进阶版本
+- [待完成] Vuejs + Vue-Router + Vue observable + function-based 高阶版本
 
-``` bash
-# install dependencies
-npm install
 
-# serve with hot reload at localhost:8080
-npm run dev
+## 预览
 
-# build for production with minification
-npm run build
+[在线预览](https://jsmond.gitee.io/cnode)
 
-# build for production and view the bundle analyzer report
-npm run build --report
+![CNode社区](https://i.loli.net/2020/05/10/gAcXtS6Pk57xwWd.png)
+
+## 开发技术
+
+```json
+    "axios": "^0.19.2",
+    "vue": "^2.5.2",
+    "vue-router": "^3.0.1",
+    "element-ui": "^2.13.1",
+    "vuex": "^3.3.0"
 ```
 
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+## API
+
+[API来源](https://cnodejs.org/api)
+
+- get /topics 主题首页
+- get /topic/:id 主题详情
+- get /user/:loginname 用户详情
+
+## 启动程序
+
+```bash
+# install dependencies
+yarn or npm install
+
+# serve with hot reload at localhost:3888
+yarn serve or npm serve
+
+# build for production with minification
+yarn build or npm run build
+
+```
+
+## License
+
+[MIT](https://opensource.org/licenses/MIT)
+
+注明原作者许可声明，您可以自由地复制、分享、和修改。
+
+Copyright (c) 2017-present, [jsmond2016](https://github.com/Jsmond2016)
