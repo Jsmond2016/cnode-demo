@@ -51,4 +51,4 @@ yarn build or npm run build
 
 注明原作者许可声明，您可以自由地复制、分享、和修改。
 
-Copyright (c) 2017-present, [jsmond2016](https://github.com/Jsmond2016)
+Copyright (c) 2020-present, [jsmond2016](https://github.com/Jsmond2016)
