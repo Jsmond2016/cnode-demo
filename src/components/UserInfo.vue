@@ -5,12 +5,11 @@
  * @Copyright: Copyright (c) 2020
  -->
 <template>
-  <div class="userinfo">
+  <div class="userinfo"
+    v-loading="isLoading"
+  >
     <div class="userInfomation">
-      <div class="loading" v-if="isLoading">
-        <img src="../assets/loading.gif">
-      </div>
-      <div class="userinfo-inner" v-else>
+      <div class="userinfo-inner">
         <section>
           <img :src="userinfo.avatar_url">
           <span> {{userinfo.loginname}}</span>
@@ -59,35 +58,24 @@
 
 <script>
 import SlideBar from './SlideBar'
+import { mapState } from 'vuex'
 
 export default {
   name: 'UserInfo',
-  data () {
-    return {
-      userinfo: {},
-      isLoading: false
-    }
+  computed: {
+    ...mapState(['userinfo', 'isLoading'])
   },
   methods: {
-    getUserInfo () {
-      const { name } = this.$route.params
-      this.$http.get(`https://cnodejs.org/api/v1/user/${name}`).then(res => {
-        if (res.data.success) {
-          this.userinfo = res.data.data
-        }
-      }).catch(err => {
-        console.log(err)
-      }).finally(() => {
-        this.isLoading = false
-      })
+    getUserInfo (name) {
+      this.$store.dispatch('getUserInfo', name)
     }
   },
   components: {
     SlideBar
   },
   beforeMount () {
-    this.isLoading = true
-    this.getUserInfo()
+    const { name } = this.$route.params
+    this.getUserInfo(name)
   }
 }
 </script>

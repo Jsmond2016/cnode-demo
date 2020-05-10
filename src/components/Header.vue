@@ -15,19 +15,7 @@
         <router-link :to="{name: 'root'}">首页</router-link>
       </li>
       <li>
-        <a href="">新手</a>
-      </li>
-      <li>
-        <a href="">API</a>
-      </li>
-      <li>
-        <a href="">关于</a>
-      </li>
-      <li>
-        <a href="">注册</a>
-      </li>
-      <li>
-        <a href="">登录</a>
+        <a href="https://github.com/Jsmond2016">关于作者</a>
       </li>
     </ul>
   </div>
@@ -43,10 +31,10 @@ export default {
  .header {
    background-color: #5a5555;
    height: 50px;
+   padding: 0 65px;
  }
  img {
    max-width: 120px;
-   margin-left: 50px;
    margin-top: 10px;
  }
   ul {

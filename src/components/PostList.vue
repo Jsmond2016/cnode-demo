@@ -7,11 +7,10 @@ import { default } from './Header.vue';
  -->
 
 <template>
-  <div class="PostList">
-    <div class="loading" v-if="isLoading">
-      <img src="../assets/loading.gif">
-    </div>
-    <div class="posts" v-else>
+  <div class="PostList"
+   v-loading="isLoading"
+  >
+    <div class="posts">
       <ul>
         <li>
           <div class="toobar" @click="changeTab">
@@ -25,41 +24,56 @@ import { default } from './Header.vue';
             </span>
           </div>
         </li>
-        <li v-for="(post, index) in posts" :key="index">
+        <li v-for="(topic, index) in topics" :key="index">
           <!-- 头像 -->
-          <img :src="post.author.avatar_url" alt="">
+          <img :src="topic.author.avatar_url" alt="">
           <!-- 回复，浏览 -->
-          <span>
-            <span class="reply_count">{{`${post.reply_count}` + '/' +`${post.visit_count}`}}</span>
+          <span class="reply-wrapper">
+            <span class="reply_count">{{`${topic.reply_count}` + '/' +`${topic.visit_count}`}}</span>
           </span>
-          <span :class="classChangeFormat(post)">
-            {{post | tabFormatter}}
+          <span :class="classChangeFormat(topic)">
+            {{topic | tabFormatter}}
           </span>
           <!-- 标题 -->
           <router-link :to="{
             name:'article',
             params:{
-              id:post.id,
-              name:post.author.loginname
+              id:topic.id,
+              name:topic.author.loginname
             }
             }"
           >
-            <span>{{post.title}}</span>
+            <span>{{topic.title}}</span>
           </router-link>
           <span class="last_reply">
-            {{post.last_reply_at | formatDate}}
+            {{topic.last_reply_at | formatDate}}
           </span>
         </li>
+        <li>
+          <el-pagination
+            background
+            :style="{'text-align': 'right'}"
+            layout="prev, pager, next"
+            :total="pagination.total"
+            @current-change="getTopicsData"
+            :pager-count="pagination.pageCount"
+            >
+          </el-pagination>
+        </li>
       </ul>
-      <pagination @onSearch="getData"></pagination>
+      <!-- <pagination @onSearch="getTopicsData"></pagination> -->
     </div>
   </div>
 </template>
 
 <script>
 import Pagination from './Pagination'
+import { mapState } from 'vuex'
 export default {
   name: 'PostList',
+  computed: {
+    ...mapState(['topics', 'userinfo', 'isLoading'])
+  },
   data () {
     return {
       tabs: [
@@ -88,28 +102,22 @@ export default {
           desc: '客户端测试'
         }
       ],
-      isLoading: false,
-      posts: {},
-      tabName: 'all'
+      // isLoading: false,
+      tabName: 'all',
+      pagination: {
+        pageCount: 5, // 每页数量
+        total: 100 // 总数量
+      }
     }
   },
   methods: {
-    getData (page = 1, tab) {
-      this.$http.get('https://cnodejs.org/api/v1/topics', {
-        params: {
-          page,
-          limit: 20,
-          tab
-        }
-      }).then(res => {
-        if (res) {
-          this.posts = res.data.data
-        }
-      }).catch((err) => {
-        console.log(err)
-      }).finally(() => {
-        console.log('finish')
-        this.isLoading = false
+    test (cc) {
+      console.log(cc)
+    },
+    getTopicsData (page = 1, tab) {
+      this.$store.dispatch('changeLoadingStatus', true)
+      this.$store.dispatch('getTopicsData', {page, tab}).then(res => {
+        this.$store.dispatch('changeLoadingStatus', false)
       })
     },
     classChangeFormat (post) {
@@ -122,13 +130,11 @@ export default {
     changeTab (e) {
       const typeName = e.target.getAttribute('name') || 'all'
       this.tabName = typeName
-      this.isLoading = true
-      this.getData(1, typeName)
+      this.getTopicsData(1, typeName)
     }
   },
   beforeMount () {
-    this.isLoading = true
-    this.getData(1, 'all')
+    this.getTopicsData(1, 'all')
   },
   components: {
     Pagination
@@ -192,6 +198,11 @@ export default {
     display: inline-block;
     text-align: center;
     font-size: 12px;
+  }
+
+  .reply-wrapper {
+    display: inline-block;
+    width: 50px;
   }
 
   .reply_count {

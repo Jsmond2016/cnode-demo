@@ -5,12 +5,11 @@
  * @Copyright: Copyright (c) 2020
  -->
 <template>
-  <div class="wrapper">
+  <div class="wrapper"
+    v-loading="isLoading"
+  >
     <div class="article">
-      <div class="loading" v-if="isLoading">
-        <img src="../assets/loading.gif">
-      </div>
-      <div v-else>
+      <div>
         <div class="topic_header">
           <div class="topic_title">
             <h2>{{post.title}}</h2>
@@ -56,7 +55,6 @@
       </div>
     </div>
     <slide-bar
-      :isLoading="isLoading"
       :userinfo="userinfo"
     >
     </slide-bar>
@@ -64,56 +62,39 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import SlideBar from './SlideBar'
 export default {
   name: 'Article',
-  data () {
-    return {
-      isLoading: false,
-      post: {},
-      userinfo: {}
-    }
+  computed: {
+    ...mapState({
+      userinfo: 'userinfo',
+      post: 'article',
+      isLoading: 'isLoading'
+    })
   },
   methods: {
-    getArticleData () {
-      this.isLoading = true
-      const searchId = this.$route.params.id
-      this.$http.get(`https://cnodejs.org/api/v1/topic/${searchId}`).then(res => {
-        if (res.data.success) {
-          this.post = res.data.data
-        }
-      }).catch(err => {
-        console.log(err)
-      }).finally(() => {
-        this.isLoading = false
+    getUserData (usrname) {
+      this.$store.dispatch('changeLoadingStatus', true)
+      this.$store.dispatch('getUserInfo', usrname).then(res => {
+        this.$store.dispatch('changeLoadingStatus', false)
       })
     },
-    getUserInfo () {
-      this.isLoading = true
-      const { name } = this.$route.params
-      this.$http.get(`https://cnodejs.org/api/v1/user/${name}`).then(res => {
-        if (res.data.success) {
-          this.userinfo = res.data.data
-        }
-      }).catch(err => {
-        console.log(err)
-      }).finally(() => {
-        this.isLoading = false
-      })
+    getArticleData (id) {
+      this.$store.dispatch('getArticleData', id)
     }
   },
   watch: {
-    userinfo (newVal, oldValue) {
-      this.userinfo = newVal
-    },
     '$route' () {
-      this.getUserInfo()
-      this.getArticleData()
+      const { id, name } = this.$route.params
+      this.getUserData(name)
+      this.getArticleData(id)
     }
   },
   beforeMount () {
-    this.getArticleData()
-    this.getUserInfo()
+    const { id, name } = this.$route.params
+    this.getUserData(name)
+    this.getArticleData(id)
   },
   components: {
     SlideBar

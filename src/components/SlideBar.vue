@@ -7,9 +7,6 @@
 
 <template>
   <div class="authorinfo">
-    <div class="loading" v-if="isLoading">
-      <img src="../assets/loading.gif">
-    </div>
     <div class="authorsummary">
       <div class="topbar">作者</div>
       <router-link class="message" :to="{
@@ -67,16 +64,7 @@ export default {
       default () {
         return {}
       }
-    },
-    isLoading: {
-      type: Boolean,
-      default () {
-        return false
-      }
     }
-  },
-  beforeMount () {
-    console.log(this.userinfo)
   }
 }
 </script>
