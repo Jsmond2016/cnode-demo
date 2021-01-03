@@ -4,7 +4,7 @@
 
 - [√] Vuejs + Vue-Router + Axios 基础版本
 - [√] Vuejs + Vue-Router + Vuex + Element 进阶版本
-- [待完成] Vuejs + Vue-Router + Vue observable + function-based 高阶版本
+- [待完成] Vue3 全家桶 + Element 版本 
 
 
 ## 预览
