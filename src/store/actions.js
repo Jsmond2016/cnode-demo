@@ -22,7 +22,7 @@ export default {
 
   async getTopicsData ({commit}, params) {
     // mdrender String 当为 false 时，不渲染。默认为 true，渲染出现的所有 markdown 格式文本
-    const { tab = 'all', page = 1, limit = 10, mdrender = false } = params
+    const { tab = 'all', page = 1, limit = 20, mdrender = false } = params
     const result = await reqTopicsData({
       tab,
       limit,
